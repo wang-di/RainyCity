@@ -2,16 +2,24 @@ spring:
   profiles:
     active: dev
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/rainycity?characterEncoding=UTF-8
-    username: root
-    password: root
-    driver-class-name: com.mysql.jdbc.Driver
+#    mysql连接
+#    url: jdbc:mysql://127.0.0.1:3306/rainycity?characterEncoding=UTF-8
+#    username: root
+#    password: root
+#    postgresql连接
+#    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:postgresql://127.0.0.1:5432/xyf
+    username: postgres
+    password: wd1993
+    driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
       ddl-auto: update  #新增数据库链接必备的参数
+    properties:
+      hibernate:
+        temp:
+          use_jdbc_metadata_defaults: false
+    show-sql: true    #在控制台输出JPA自动生成的sql语句
 server:
   port: 8777
-testValue: yml中的值
-name: wangdi
-age: 25
 
