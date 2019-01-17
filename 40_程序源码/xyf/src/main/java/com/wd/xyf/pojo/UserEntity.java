@@ -11,13 +11,19 @@ import javax.persistence.*;
  */
 
 @Entity
-@Table(name = "user", schema = "db_xyf")
+@Table(name = "t_user", schema = "db_xyf")
 public class UserEntity {
+
+	public UserEntity() { }
+
+	public UserEntity(String cName) {
+		this.cName = cName;
+	}
 
 	@Id
 	@GeneratedValue
 	@Column(name = "n_id")
-	private Long nid;
+	private Long nId;
 
     @Column(name = "c_loginid")
     private String cLoginid;
@@ -31,7 +37,15 @@ public class UserEntity {
 	@Column(name = "n_age")
     private Integer nAge;
 
-    public String getcLoginid() {
+	public Long getnId() {
+		return nId;
+	}
+
+	public void setnId(Long nId) {
+		this.nId = nId;
+	}
+
+	public String getcLoginid() {
         return cLoginid;
     }
 
