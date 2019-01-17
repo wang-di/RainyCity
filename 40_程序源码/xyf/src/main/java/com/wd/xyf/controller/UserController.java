@@ -6,10 +6,9 @@ import com.wd.xyf.pojo.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,7 +21,7 @@ import java.util.List;
  * @Version 1.0
  **/
 @RestController
-@RequestMapping(value = "users")
+@RequestMapping(value = "/user")
 public class UserController {
 
 	Logger logger = LoggerFactory.getLogger(com.wd.xyf.controller.UserController.class);
@@ -47,7 +46,7 @@ public class UserController {
 	 **/
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<UserEntity> list() {
-		logger.info("查询到{}条数据", userJPA.findAll().size());
+//		logger.info("查询到{}条数据", userJPA.findAll().size());
 		return userJPA.findAll();
 	}
 
@@ -59,8 +58,21 @@ public class UserController {
 	 * @return void
 	 **/
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
+	@Transactional
 	public void deleteUser(String loginId) {
 		userJPA.deleteByCLoginid(loginId);
+	}
+
+	/**
+	 * @Author wangdi
+	 * @Description 根据id删除用户
+	 * @Date 2019/1/14 17:43
+	 * @Param [id]
+	 * @return void
+	 **/
+	@RequestMapping(value = "/deleteById", method = RequestMethod.GET)
+	public void deleteUserById(Long id) {
+		userJPA.deleteById(id);
 	}
 
 	/**
