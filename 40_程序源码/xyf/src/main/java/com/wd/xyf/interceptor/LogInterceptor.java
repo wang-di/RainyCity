@@ -1,6 +1,7 @@
 package com.wd.xyf.interceptor;
 
 import com.alibaba.fastjson.JSON;
+import com.wd.xyf.constant.RequestConsts;
 import com.wd.xyf.constant.SessionConsts;
 import com.wd.xyf.jpa.LogJPA;
 import com.wd.xyf.pojo.LogEntity;
@@ -28,8 +29,11 @@ public class LogInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		LogEntity logEntity = getLogInfo(request);
-		LogJPA logJPA = BeanUtils.getBean(LogJPA.class, request);
-		logJPA.save(logEntity);
+
+		//设置log实体到request中，以便afterCompletion中使用
+		request.setAttribute(RequestConsts.LOG_ENTITY, logEntity);
+
+
 		return true;
 	}
 
@@ -40,7 +44,17 @@ public class LogInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-
+		LogJPA logJPA = BeanUtils.getBean(LogJPA.class, request);
+		LogEntity logEntity = (LogEntity) request.getAttribute(RequestConsts.LOG_ENTITY);
+		if (logEntity != null) {
+			logEntity.setReturnCode(response.getStatus());
+			Timestamp returnTime =  DateUtils.getCurrTime();
+			logEntity.setReturnTime(returnTime);
+			logEntity.setCostTime(returnTime.getTime() - logEntity.getRequestTime().getTime());
+			//获取返回的数据，可以考虑使用AOP实现
+			logEntity.setReturnData((String) request.getAttribute(RequestConsts.LOG_RETURN));
+			logJPA.save(logEntity);
+		}
 	}
 
 	private LogEntity getLogInfo(HttpServletRequest request) {
@@ -48,8 +62,9 @@ public class LogInterceptor implements HandlerInterceptor {
 		logEntity.setClient_ip(request.getRemoteHost());
 		logEntity.setUri(request.getRequestURI());
 		logEntity.setMethod(request.getMethod());
-		logEntity.setTime(DateUtils.getCurrTime());
-		logEntity.setSessionId(getSession(request));
+		logEntity.setRequestTime(DateUtils.getCurrTime());
+//		logEntity.setSessionId(getSession(request));
+		logEntity.setSessionId(request.getRequestedSessionId());
 		logEntity.setParams(JSON.toJSONString(request.getParameterMap()));
 		return logEntity;
 	}

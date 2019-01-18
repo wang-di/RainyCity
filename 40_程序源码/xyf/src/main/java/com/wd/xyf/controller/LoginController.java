@@ -1,5 +1,6 @@
 package com.wd.xyf.controller;
 
+import com.wd.xyf.constant.RequestConsts;
 import com.wd.xyf.jpa.UserJPA;
 import com.wd.xyf.pojo.UserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,8 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.Optional;
 
 /**
@@ -29,10 +32,11 @@ public class LoginController {
 	private UserJPA userJPA;
 
 	@RequestMapping(value = "/login")
-	public String login(UserEntity user, HttpServletRequest request) {
+	public String login(UserEntity user, HttpServletRequest request, HttpServletResponse response) throws IOException {
 		boolean pass= true;
 		String result = "登录成功";
-		 //根据用户名查询用户
+		//根据用户名查询用户
+		//TODO 理解jpa findOne()
 		Optional<UserEntity> opt = userJPA.findOne(new Specification<UserEntity>() {
 			@Override
 			public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
@@ -55,7 +59,12 @@ public class LoginController {
 		 	request.getSession().setAttribute("_session_user", opt.get());
 		}
 
-		return result;
+		//将返回结果写入请求对象中
+		request.setAttribute(RequestConsts.LOG_RETURN, result);
+		if (pass) {
+			response.sendRedirect("/user/index");
+		}
 
+		return result;
 	}
 }

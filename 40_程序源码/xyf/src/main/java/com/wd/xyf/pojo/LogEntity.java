@@ -48,16 +48,16 @@ public class LogEntity {
 	private String params;
 
 	//请求时间
-	@Column(name = "dt_time")
-	private Timestamp time;
+	@Column(name = "dt_request_time")
+	private Timestamp requestTime;
 
 	//请求返回时间
 	@Column(name = "dt_return_time")
 	private Timestamp returnTime;
 
 	//返回码
-	@Column(name = "c_return_code")
-	private String returnCode;
+	@Column(name = "n_return_code")
+	private Integer returnCode;
 
 	//接口返回数据json
 	@Column(name = "c_return_data")
@@ -65,7 +65,7 @@ public class LogEntity {
 
 	//请求耗时
 	@Column(name = "n_cost_time")
-	private Integer costTime;
+	private Long costTime;
 
 	public String getId() {
 		return id;
@@ -123,12 +123,12 @@ public class LogEntity {
 		this.params = params;
 	}
 
-	public Timestamp getTime() {
-		return time;
+	public Timestamp getRequestTime() {
+		return requestTime;
 	}
 
-	public void setTime(Timestamp time) {
-		this.time = time;
+	public void setRequestTime(Timestamp requestTime) {
+		this.requestTime = requestTime;
 	}
 
 	public Timestamp getReturnTime() {
@@ -139,11 +139,11 @@ public class LogEntity {
 		this.returnTime = returnTime;
 	}
 
-	public String getReturnCode() {
+	public Integer getReturnCode() {
 		return returnCode;
 	}
 
-	public void setReturnCode(String returnCode) {
+	public void setReturnCode(Integer returnCode) {
 		this.returnCode = returnCode;
 	}
 
@@ -155,11 +155,11 @@ public class LogEntity {
 		this.returnData = returnData;
 	}
 
-	public Integer getCostTime() {
+	public Long getCostTime() {
 		return costTime;
 	}
 
-	public void setCostTime(Integer costTime) {
+	public void setCostTime(Long costTime) {
 		this.costTime = costTime;
 	}
 }

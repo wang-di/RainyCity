@@ -28,12 +28,23 @@ public class IndexController {
 
 	/**
 	 * @Author wangdi
-	 * @Description T初始化首页
+	 * @Description 初始化首页
 	 * @Date 2019/1/15 17:33
 	 * @return java.lang.String
 	 **/
 	@RequestMapping(value = "/index", method = RequestMethod.GET)
 	public String index() {
 		return "index";
+	}
+
+	/**
+	 * @Author wangdi
+	 * @Description 下载页面
+	 * @Date 2019/1/18 16:27
+	 * @return java.lang.String
+	 **/
+	@RequestMapping(value = "/upload")
+	public String upload() {
+		return "upload";
 	}
 }
