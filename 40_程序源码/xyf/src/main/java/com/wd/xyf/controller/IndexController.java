@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * @ClassName IndexController
- * @Description TODO
+ * @Description 首页控制器
  * @Author wangdi
  * @Date 2019/1/15 17:27
  * @Version 1.0

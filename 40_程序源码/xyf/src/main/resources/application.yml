@@ -1,3 +1,5 @@
+#是否开发环境
+dev: true
 spring:
   profiles:
     active: dev
@@ -71,4 +73,8 @@ spring:
      suffix: .jsp
 server:
   port: 8777
+#  日志输出控制，‘off’：屏蔽日志  ‘级别’：定义输出级别
+logging:
+  level:
+    com.wd.xyf.controller.LoginController: 'warn'
 

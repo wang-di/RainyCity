@@ -25,7 +25,7 @@ public class DateUtils {
 
 	/**
 	 * @Author wangdi
-	 * @Description TODO
+	 * @Description 获取当前时间戳
 	 * @Date 2019/1/17 17:25
 	 * @return java.sql.Timestamp
 	 **/

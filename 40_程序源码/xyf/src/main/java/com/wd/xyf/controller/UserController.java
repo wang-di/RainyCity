@@ -6,6 +6,9 @@ import com.wd.xyf.pojo.UserEntity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -15,7 +18,7 @@ import java.util.List;
 
 /**
  * @ClassName UserController
- * @Description TODO
+ * @Description 用户控制器
  * @Author wangdi
  * @Date 2019/1/10 18:28
  * @Version 1.0
@@ -27,16 +30,7 @@ public class UserController {
 	Logger logger = LoggerFactory.getLogger(com.wd.xyf.controller.UserController.class);
 
 	@Autowired
-	UserMapper userMapper;
-
-	@Autowired
 	private UserJPA userJPA;
-
-	public String getUsers() {
-		List<UserEntity> list = userMapper.selectAll();
-		logger.info("获取{}个用户，用户名是{}", list.size(), list.get(0).getcName());
-		return list.get(0).getcName();
-	}
 
 	/**
 	 * @Author wangdi
@@ -60,7 +54,7 @@ public class UserController {
 	@RequestMapping(value = "/delete", method = RequestMethod.GET)
 	@Transactional
 	public void deleteUser(String loginId) {
-		userJPA.deleteByCLoginid(loginId);
+		userJPA.deleteByLoginid(loginId);
 	}
 
 	/**
@@ -86,5 +80,30 @@ public class UserController {
 	public UserEntity save(UserEntity userEntity) {
 		logger.info("保存用户");
 		return userJPA.save(userEntity);
+	}
+
+	@RequestMapping(value = "/age")
+	public List<UserEntity> age() {
+		return userJPA.queryByAge(20);
+	}
+
+	@RequestMapping(value = "/deleteByNamePwd")
+	public String deleteByNamePwd(String userName, String password) {
+		int deleteNum = userJPA.nq_deleteUser(userName, password);
+		return "根据用户名和密码删除用户数：" + deleteNum;
+	}
+
+	@RequestMapping(value = "/queryByPage")
+	public List<UserEntity> queryByPage(int page) {
+		UserEntity userEntity = new UserEntity();
+		userEntity.setPage(page);
+		userEntity.setSort(Sort.Direction.ASC);
+		userEntity.setSidx("id");
+		userEntity.setSize(2);
+		Sort sort = new Sort(userEntity.getSort(), userEntity.getSidx());
+		//创建分页对象
+		PageRequest pageRequest = PageRequest.of(userEntity.getPage() - 1, userEntity.getSize(), sort);
+		//执行分页查询
+		return userJPA.findAll(pageRequest).getContent();
 	}
 }

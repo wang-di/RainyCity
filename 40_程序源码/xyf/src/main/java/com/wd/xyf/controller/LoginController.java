@@ -3,6 +3,8 @@ package com.wd.xyf.controller;
 import com.wd.xyf.constant.RequestConsts;
 import com.wd.xyf.jpa.UserJPA;
 import com.wd.xyf.pojo.UserEntity;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +21,7 @@ import java.util.Optional;
 
 /**
  * @ClassName LoginController
- * @Description TODO
+ * @Description 登录控制器
  * @Author wangdi
  * @Date 2019/1/15 15:07
  * @Version 1.0
@@ -27,6 +29,8 @@ import java.util.Optional;
 @RestController
 @RequestMapping(value = "/user")
 public class LoginController {
+
+	Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 	@Autowired
 	private UserJPA userJPA;
@@ -40,7 +44,7 @@ public class LoginController {
 		Optional<UserEntity> opt = userJPA.findOne(new Specification<UserEntity>() {
 			@Override
 			public Predicate toPredicate(Root<UserEntity> root, CriteriaQuery<?> criteriaQuery, CriteriaBuilder criteriaBuilder) {
-				criteriaQuery.where(criteriaBuilder.equal(root.get("cName"), user.getcName()));
+				criteriaQuery.where(criteriaBuilder.equal(root.get("cName"), user.getName()));
 				return null;
 			}
 		});
@@ -48,7 +52,7 @@ public class LoginController {
 		if (!opt.isPresent()) {
 			pass = false;
 			result = "用户不存在，登录失败";
-		} else if (!opt.get().getcPassword().equals(user.getcPassword())) {
+		} else if (!opt.get().getPassword().equals(user.getPassword())) {
 			pass = false;
 			result = "用户密码输入错误，登录失败";
 		}

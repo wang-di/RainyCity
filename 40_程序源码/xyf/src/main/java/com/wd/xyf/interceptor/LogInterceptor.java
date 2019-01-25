@@ -23,17 +23,12 @@ import java.sql.Timestamp;
  **/
 public class LogInterceptor implements HandlerInterceptor {
 
-//	@Autowired
-//	LogJPA logJPA;
-
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		LogEntity logEntity = getLogInfo(request);
 
 		//设置log实体到request中，以便afterCompletion中使用
 		request.setAttribute(RequestConsts.LOG_ENTITY, logEntity);
-
-
 		return true;
 	}
 
@@ -76,12 +71,6 @@ public class LogInterceptor implements HandlerInterceptor {
 		}
 		return null;
 	}
-
-	public static void main(String[] args) {
-		System.out.println(new Timestamp(System.currentTimeMillis()));
-		System.out.println(DateUtils.getCurrDate());
-	}
-
 
 
 }

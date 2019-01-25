@@ -1,6 +1,12 @@
 package com.wd.xyf.pojo;
 
+import com.wd.xyf.base.BaseEntity;
+import com.wd.xyf.validator.CodeValidator;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 
 /**
  * @ClassName UserEntity
@@ -12,68 +18,83 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "t_user", schema = "db_xyf")
-public class UserEntity {
+public class UserEntity extends BaseEntity {
 
 	public UserEntity() { }
 
-	public UserEntity(String cName) {
-		this.cName = cName;
+	public UserEntity(String name) {
+		this.name = name;
 	}
 
 	@Id
 	@GeneratedValue
 	@Column(name = "n_id")
-	private Long nId;
+	private Long id;
 
     @Column(name = "c_loginid")
-    private String cLoginid;
+	@NotBlank
+    private String loginid;
 
     @Column(name = "c_password")
-    private String cPassword;
+	@NotBlank
+    private String password;
 
 	@Column(name = "c_name")
-    private String cName;
+    private String name;
 
 	@Column(name = "n_age")
-    private Integer nAge;
+	@Min(value = 1)
+    private Integer age;
 
-	public Long getnId() {
-		return nId;
+	@Column(name = "n_is_vip")
+	@CodeValidator(codes = "1;2")
+	private Integer isVip;
+
+	public Long getId() {
+		return id;
 	}
 
-	public void setnId(Long nId) {
-		this.nId = nId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public String getcLoginid() {
-        return cLoginid;
-    }
+	public String getLoginid() {
+		return loginid;
+	}
 
-    public void setcLoginid(String cLoginid) {
-        this.cLoginid = cLoginid;
-    }
+	public void setLoginid(String loginid) {
+		this.loginid = loginid;
+	}
 
-    public String getcPassword() {
-        return cPassword;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public void setcPassword(String cPassword) {
-        this.cPassword = cPassword;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public String getcName() {
-        return cName;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public void setcName(String cName) {
-        this.cName = cName;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public Integer getnAge() {
-        return nAge;
-    }
+	public Integer getAge() {
+		return age;
+	}
 
-    public void setnAge(Integer nAge) {
-        this.nAge = nAge;
-    }
+	public void setAge(Integer age) {
+		this.age = age;
+	}
+
+	public Integer getIsVip() {
+		return isVip;
+	}
+
+	public void setIsVip(Integer isVip) {
+		this.isVip = isVip;
+	}
 }

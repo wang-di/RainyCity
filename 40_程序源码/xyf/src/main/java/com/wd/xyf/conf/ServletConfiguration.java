@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @ClassName ServletConfiguration
- * @Description TODO
+ * @Description servlet配置
  * @Author wangdi
  * @Date 2019/1/18 15:15
  * @Version 1.0

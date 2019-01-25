@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
 
 /**
  * @ClassName OptionalTest
- * @Description TODO
+ * @Description
  * @Author wangdi
  * @Date 2019/1/15 16:01
  * @Version 1.0
@@ -51,7 +51,7 @@ public class OptionalTest {
 		System.out.println(opt.isPresent());
 		assertTrue(opt.isPresent());
 
-		assertEquals(userEntity.getcName(), opt.get().getcName());
+		assertEquals(userEntity.getName(), opt.get().getName());
 	}
 
 }

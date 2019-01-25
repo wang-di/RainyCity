@@ -20,9 +20,9 @@ public class SessionInterceptor implements HandlerInterceptor {
 
 	Logger logger = LoggerFactory.getLogger(SessionInterceptor.class);
 
+
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-
 		logger.info("请求URI：{}",  request.getRequestURI());
 		//登录不做拦截
 		if (request.getRequestURI().equals("/user/login") || request.getRequestURI().equals("/user/login_view")) {
