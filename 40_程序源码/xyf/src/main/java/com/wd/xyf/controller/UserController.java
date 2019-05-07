@@ -3,6 +3,7 @@ package com.wd.xyf.controller;
 import com.wd.xyf.jpa.UserJPA;
 import com.wd.xyf.mapper.UserMapper;
 import com.wd.xyf.pojo.UserEntity;
+import com.wd.xyf.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ public class UserController {
 	@Autowired
 	private UserJPA userJPA;
 
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * @Author wangdi
 	 * @Description 查询用户列表
@@ -41,7 +45,8 @@ public class UserController {
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
 	public List<UserEntity> list() {
 //		logger.info("查询到{}条数据", userJPA.findAll().size());
-		return userJPA.findAll();
+//		return userJPA.findAll();
+		return userService.list();
 	}
 
 	/**

@@ -71,9 +71,21 @@ spring:
     view:
      prefix: /WEB-INF/jsp/
      suffix: .jsp
+  #配置redis数据库连接
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    jedis:
+      pool:
+        max-active: 8 #连接池最大连接数（使用负值表示没有限制）
+        max-wait: -1 #连接池最大阻塞等待时间（使用负值表示没有限制）
+        max-idle: 8 #连接池中最大空闲连接
+        min-idle: 0 #连接池中最小空闲连接
+    timeout: 0  #连接超时时间（毫秒）
+
 server:
   port: 8777
-#  日志输出控制，‘off’：屏蔽日志  ‘级别’：定义输出级别
+#日志输出控制，‘off’：屏蔽日志  ‘级别’：定义输出级别
 logging:
   level:
     com.wd.xyf.controller.LoginController: 'warn'
